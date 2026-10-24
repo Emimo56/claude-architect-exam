@@ -1,0 +1,22 @@
+name: Markdown-only check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check-markdown-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail if any non-markdown file is present
+        run: |
+          non_md=$(git ls-files | grep -vE '\.md$|^\.github/')
+          if [ -n "$non_md" ]; then
+            echo "::error::Non-markdown files found in repo:"
+            echo "$non_md"
+            exit 1
+          fi
