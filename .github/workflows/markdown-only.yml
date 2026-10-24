@@ -14,7 +14,7 @@ jobs:
 
       - name: Fail if any non-markdown file is present
         run: |
-          non_md=$(git ls-files | grep -vE '\.md$|^\.github/')
+          non_md=$(git ls-files | grep -vE '\.md$|^\.github/' || true)
           if [ -n "$non_md" ]; then
             echo "::error::Non-markdown files found in repo:"
             echo "$non_md"
